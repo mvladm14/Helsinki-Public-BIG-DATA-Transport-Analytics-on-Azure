@@ -1,0 +1,15 @@
+﻿@result =
+    SELECT Convert.ToInt64(linja) AS bus_line,
+           MAX(Convert.ToInt64(ajoaika)) AS max_duration,
+           MIN(Convert.ToInt64(ajoaika)) AS min_duration,
+           SUM(Convert.ToInt64(ajoaika)) AS upper_quartile,
+           AVG(Convert.ToInt64(ajoaika)) AS median,
+           COUNT(DISTINCT (Convert.ToInt64(ajoaika))) AS lower_quartile
+    FROM hslDataView
+    WHERE USQLApplication1.Helpers.TryParseInt(linja)
+    GROUP BY Convert.ToInt64(linja);
+
+OUTPUT @result
+TO "/Output/hslDataView-use-view-3/23.csv"
+ORDER BY bus_line
+USING Outputters.Csv();
